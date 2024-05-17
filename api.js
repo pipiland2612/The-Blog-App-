@@ -41,6 +41,17 @@ function findDataByID(array, idNumber) {
         }
     }
 }
+
+function findIndex(array, idNumber) {
+    for (let i = 0; i < array.length; i++) {
+        const element = array[i];
+        if (element.id === idNumber) {
+            return i
+        }
+    }
+
+    return -1
+}
 // Middleware
 app.use(express.static("public"));
 
@@ -83,8 +94,9 @@ app.patch("/posts/:id", (req, res) => {
 })
 
 app.delete("/posts/:id", (req, res) => {
-    const id = parseInt(req.params.id)
-    posts.splice(id - 1, 1)
+    const index = findIndex(posts, parseInt(req.params.id));
+    if (index === -1) return res.status(404).json({ message: "Post not found" });
+    posts.splice(index, 1)
     res.json({ message: "Deleted successfully" })
 })
 app.listen(port, () => {
