@@ -84,7 +84,7 @@ app.patch("/posts/:id", (req, res) => {
 
 app.delete("/posts/:id", (req, res) => {
     const id = parseInt(req.params.id)
-    posts.splice(id, 1)
+    posts.splice(id - 1, 1)
     res.json({ message: "Deleted successfully" })
 })
 app.listen(port, () => {
